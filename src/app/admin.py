@@ -1,3 +1,8 @@
 from django.contrib import admin
+from .models import Character
 
-# Register your models here.
+class CharacterAdmin(admin.ModelAdmin):
+    list_display = ['name', 'level']
+    ordering = ['name']
+
+admin.site.register(Character, CharacterAdmin)
