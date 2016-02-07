@@ -1,26 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# class ClassName(models.Model):
-# 	attr = models.FieldName(property)
-
-# 	def __str__(self):
-# 		return '%s' % self.something
-
-
-'''
-EXAMPLE OF CHOICES
-
-class Person(models.Model):
-    SHIRT_SIZES = (
-        ('S', 'Small'),
-        ('M', 'Medium'),
-        ('L', 'Large'),
-    )
-    name = models.CharField(max_length=60)
-    shirt_size = models.CharField(max_length=1, choices=SHIRT_SIZES)
-'''
-
 
 class Character(models.Model):
 	name = models.CharField(max_length=40)
@@ -81,6 +61,11 @@ class Character(models.Model):
 	)
 	gender = models.CharField(max_length=1, choices=GENDERS, default='N')
 
+	personality_traits = models.ManyToManyField('PersonalityTrait')
+	ideals = models.ManyToManyField('Ideals')
+	bonds = models.ManyToManyField('Bonds')
+	flaws = models.ManyToManyField('Flaws')
+
 	strength = models.IntegerField(default=10)
 	dexterity = models.IntegerField(default=10)
 	constitution = models.IntegerField(default=10)
@@ -103,9 +88,8 @@ class Character(models.Model):
 		return '%s' % self.name
 
 
-class PersonalityTraits(models.Model):
+class PersonalityTrait(models.Model):
 	trait = models.CharField(max_length=120)
-	character = models.ForeignKey(Character, on_delete=models.CASCADE)
 
 	class Meta:
 		verbose_name = 'PersonalityTrait'
@@ -117,7 +101,6 @@ class PersonalityTraits(models.Model):
 
 class Ideals(models.Model):
 	ideal = models.CharField(max_length=150)
-	character = models.ForeignKey(Character, on_delete=models.CASCADE)
 
 	class Meta:
 		verbose_name = 'Ideal'
@@ -129,7 +112,6 @@ class Ideals(models.Model):
 
 class Bonds(models.Model):
 	bond = models.CharField(max_length=150)
-	character = models.ForeignKey(Character, on_delete=models.CASCADE)
 
 	class Meta:
 		verbose_name = 'Bond'
@@ -141,7 +123,6 @@ class Bonds(models.Model):
 
 class Flaws(models.Model):
 	flaw = models.CharField(max_length=150)
-	character = models.ForeignKey(Character, on_delete=models.CASCADE)
 
 	class Meta:
 		verbose_name = 'Flaw'
@@ -149,4 +130,5 @@ class Flaws(models.Model):
 
 	def __str__(self):
 		return '%s' % self.flaw
+
 

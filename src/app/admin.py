@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Character, PersonalityTraits, Ideals, Bonds, Flaws
+from .models import Character, PersonalityTrait, Ideals, Bonds, Flaws
 
 
 class CharacterAdmin(admin.ModelAdmin):
@@ -7,28 +7,8 @@ class CharacterAdmin(admin.ModelAdmin):
     ordering = ['name']
 
 
-class PersonalityTraitsAdmin(admin.ModelAdmin):
-	list_display = ['character', 'trait']
-	ordering = ['character']
-
-
-class IdealsAdmin(admin.ModelAdmin):
-	list_display = ['character', 'ideal']
-	ordering = ['character']
-
-
-class BondsAdmin(admin.ModelAdmin):
-	list_display = ['character', 'bond']
-	ordering = ['character']
-
-
-class FlawsAdmin(admin.ModelAdmin):
-	list_display = ['character', 'flaw']
-	ordering = ['character']
-
-
 admin.site.register(Character, CharacterAdmin)
-admin.site.register(PersonalityTraits, PersonalityTraitsAdmin)
-admin.site.register(Ideals, IdealsAdmin)
-admin.site.register(Bonds, BondsAdmin)
-admin.site.register(Flaws, FlawsAdmin)
+admin.site.register(PersonalityTrait)
+admin.site.register(Ideals)
+admin.site.register(Bonds)
+admin.site.register(Flaws)
