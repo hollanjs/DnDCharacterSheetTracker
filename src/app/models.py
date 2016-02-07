@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 # class ClassName(models.Model):
 # 	attr = models.FieldName(property)
@@ -24,7 +24,7 @@ class Person(models.Model):
 
 class Character(models.Model):
 	name = models.CharField(max_length=40)
-	player_name = models.CharField(max_length=30)
+	player_name = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 	level = models.IntegerField(default=1)
 	xp = models.IntegerField(default=0)
 	RACES = (
@@ -81,11 +81,18 @@ class Character(models.Model):
 	)
 	gender = models.CharField(max_length=1, choices=GENDERS, default='N')
 
+	strength = models.IntegerField(default=10)
+	dexterity = models.IntegerField(default=10)
+	constitution = models.IntegerField(default=10)
+	intelligence = models.IntegerField(default=10)
+	wisdom = models.IntegerField(default=10)
+	charisma = models.IntegerField(default=10)
 
-	
+	speed = models.IntegerField(default=30)
 
-
-
+	hp_max = models.IntegerField(default=20)
+	hp = models.IntegerField(default=20)
+	temp_hp = models.IntegerField(default=0)
 
 
 	class Meta:
@@ -94,4 +101,52 @@ class Character(models.Model):
 
 	def __str__(self):
 		return '%s' % self.name
+
+
+class PersonalityTraits(models.Model):
+	trait = models.CharField(max_length=120)
+	character = models.ForeignKey(Character, on_delete=models.CASCADE)
+
+	class Meta:
+		verbose_name = 'PersonalityTrait'
+		verbose_name_plural = 'PersonalityTraits'
+
+	def __str__(self):
+		return '%s' % self.trait
+
+
+class Ideals(models.Model):
+	ideal = models.CharField(max_length=150)
+	character = models.ForeignKey(Character, on_delete=models.CASCADE)
+
+	class Meta:
+		verbose_name = 'Ideal'
+		verbose_name_plural = 'Ideals'
+
+	def __str__(self):
+		return '%s' % self.ideal
+
+
+class Bonds(models.Model):
+	bond = models.CharField(max_length=150)
+	character = models.ForeignKey(Character, on_delete=models.CASCADE)
+
+	class Meta:
+		verbose_name = 'Bond'
+		verbose_name_plural = 'Bonds'
+
+	def __str__(self):
+		return '%s' % self.bond
+
+
+class Flaws(models.Model):
+	flaw = models.CharField(max_length=150)
+	character = models.ForeignKey(Character, on_delete=models.CASCADE)
+
+	class Meta:
+		verbose_name = 'Flaw'
+		verbose_name_plural = 'Flaws'
+
+	def __str__(self):
+		return '%s' % self.flaw
 
