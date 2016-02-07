@@ -23,33 +23,68 @@ class Person(models.Model):
 
 
 class Character(models.Model):
-	name = models.CharField(max_length = 50, null = False, blank = False)
-	level = models.PositiveIntegerField(default = 1)
-	char_class = models.CharField(max_length = 30, null = False, blank = False) # udpate later to choice field
-	background = models.CharField(max_length = 20, null = True, blank = True) # udpate later to choice field
-	player = models.CharField(max_length = 30, null = True, blank = True) # choices should be from users table
-	race = models.CharField(max_length = 20, null = False, blank = False) # udpate later to choice field
-	alignment = models.CharField(max_length = 30, default = 'Neutral', null = False, blank = False) # udpate later to choice field
-	exp_points = models.PositiveIntegerField(default = 0)
+	name = models.CharField(max_length=40)
+	player_name = models.CharField(max_length=30)
+	level = models.IntegerField(default=1)
+	xp = models.IntegerField(default=0)
+	RACES = (
+		('Dragonborn', 'Dragonborn'),
+		('Drow', 'Drow'),
+		('Dwarf', 'Dwarf'),
+		('Elf', 'Elf'),
+		('Gnome', 'Gnome'),
+		('Half-elf', 'Half-elf'),
+		('Half-orc', 'Half-orc'),
+		('Halfling-Hobbit', 'Halfling-Hobbit'),
+		('Human', 'Human'),
+		('Tiefling', 'Tiefling'),
+	)
+	race = models.CharField(max_length=15, choices=RACES, default='Human')
+	CLASSES = (
+		('Cleric', 'Cleric'),
+		('Fighter', 'Fighter'),
+		('Rogue', 'Rogue'),
+		('Wizard', 'Wizard'),
+		('Barbarian', 'Barbarian'),
+		('Bard', 'Bard'),
+		('Druid', 'Druid'),
+		('Monk', 'Monk'),
+		('Paladin', 'Paladin'),
+		('Ranger', 'Ranger'),
+		('Sorcerer', 'Sorcerer'),
+		('Warlock', 'Warlock'),
+	)
+	char_class = models.CharField(max_length=10, choices=CLASSES, default='Fighter')
+	BACKGROUNDS = (
+		('Acolyte', 'Acolyte'),
+		('Criminal', 'Criminal'),
+		('Charlatan', 'Charlatan'),
+		('Entertainer', 'Entertainer'),
+		('Folk Hero', 'Folk Hero'),
+		('Guild Artisan', 'Guild Artisan'),
+		('Hermit', 'Hermit'),
+		('Noble', 'Noble'),
+		('None', 'None'),
+		('Other', 'Other'),
+		('Outlander', 'Outlander'),
+		('Sage', 'Sage'),
+		('Sailor', 'Sailor'),
+		('Soldier', 'Soldier'),
+		('Urchin', 'Urchin'),
+	)
+	background = models.CharField(max_length=15, choices=BACKGROUNDS, default='None')
+	GENDERS = (
+		('M', 'Male'),
+		('F', 'Female'),
+		('A', 'Asexual'),
+		('N', 'Not Defined'),
+	)
+	gender = models.CharField(max_length=1, choices=GENDERS, default='N')
 
-	# ATTRIBUTES
-	strength = models.PositiveIntegerField(default = 10)
-	# strength_bonus = (self.strength - 10) // 2 
 
-	dexterity = models.PositiveIntegerField(default = 10)
-	# dexterity_bonus = (self.dexterity - 10) // 2 
+	
 
-	constitution = models.PositiveIntegerField(default = 10)
-	# constitution_bonus = (self.constitution - 10) // 2 
 
-	intelligence = models.PositiveIntegerField(default = 10)
-	# intelligence_bonus = (self.intelligence - 10) // 2 
-
-	wisdom = models.PositiveIntegerField(default = 10)
-	# wisdom_bonus = (self.wisdom - 10) // 2 
-
-	charisma = models.PositiveIntegerField(default = 10)
-	# charisma_bonus = (self.charisma - 10) // 2 
 
 
 
