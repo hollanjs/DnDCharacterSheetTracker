@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Character, PersonalityTrait, Ideal, Bond, Flaw, Language
+from .models import *
 
 
 class CharacterAdmin(admin.ModelAdmin):
@@ -13,3 +13,7 @@ admin.site.register(Ideal)
 admin.site.register(Bond)
 admin.site.register(Flaw)
 admin.site.register(Language)
+admin.site.register(Gender)
+admin.site.register(CharClass)
+admin.site.register(Background)
+admin.site.register(Race)

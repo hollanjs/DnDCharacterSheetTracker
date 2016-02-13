@@ -2,65 +2,84 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+'''
+THINGS TO DO:
+- add weapons class to add weapons
+  -  should this be one to one or many to many?
+  -  maybe it should be normal weapons as many to many
+     and specialty weapons as one to one...
+  -  use this site: http://5edndwiki.wikidot.com/equipment-weapons
+'''
+
+
+
+class Race(models.Model):
+    race = models.CharField(max_length=20)
+
+    class Meta:
+        verbose_name        = "Race"
+        verbose_name_plural = "Races"
+
+    def __str__(self):
+        return '%s' % self.race
+
+
+class CharClass(models.Model):
+    char_class = models.CharField(max_length=20)
+
+    class Meta:
+        verbose_name        = "Character Class"
+        verbose_name_plural = "Character Classes"
+
+    def __str__(self):
+        return '%s' % self.char_class
+
+
+class Background(models.Model):
+    background = models.CharField(max_length=20)
+
+    class Meta:
+        verbose_name        = "Background"
+        verbose_name_plural = "Backgrounds"
+
+    def __str__(self):
+        return '%s' % self.background
+
+
+class Gender(models.Model):
+    gender = models.CharField(max_length=12)
+
+    class Meta:
+        verbose_name        = "Gender"
+        verbose_name_plural = "Genders"
+
+    def __str__(self):
+        return '%s' % self.gender
+
+
+class Archetype(models.Model):
+    archetype  = models.CharField(max_length=40)
+    char_class = models.ForeignKey(CharClass, null=True, blank=False)
+
+    class Meta:
+        verbose_name        = "Archetype"
+        verbose_name_plural = "Archetypes"
+
+    def __str__(self):
+        return '%s' % self.archetype
+                                            
+
 class Character(models.Model):
-    RACES = (
-        ('Dragonborn', 'Dragonborn'),
-        ('Drow', 'Drow'),
-        ('Dwarf', 'Dwarf'),
-        ('Elf', 'Elf'),
-        ('Gnome', 'Gnome'),
-        ('Half-elf', 'Half-elf'),
-        ('Half-orc', 'Half-orc'),
-        ('Halfling-Hobbit', 'Halfling-Hobbit'),
-        ('Human', 'Human'),
-        ('Tiefling', 'Tiefling'),
-    )
-    CLASSES = (
-        ('Cleric', 'Cleric'),
-        ('Fighter', 'Fighter'),
-        ('Rogue', 'Rogue'),
-        ('Wizard', 'Wizard'),
-        ('Barbarian', 'Barbarian'),
-        ('Bard', 'Bard'),
-        ('Druid', 'Druid'),
-        ('Monk', 'Monk'),
-        ('Paladin', 'Paladin'),
-        ('Ranger', 'Ranger'),
-        ('Sorcerer', 'Sorcerer'),
-        ('Warlock', 'Warlock'),
-    )
-    BACKGROUNDS = (
-        ('Acolyte', 'Acolyte'),
-        ('Criminal', 'Criminal'),
-        ('Charlatan', 'Charlatan'),
-        ('Entertainer', 'Entertainer'),
-        ('Folk Hero', 'Folk Hero'),
-        ('Guild Artisan', 'Guild Artisan'),
-        ('Hermit', 'Hermit'),
-        ('Noble', 'Noble'),
-        ('None', 'None'),
-        ('Other', 'Other'),
-        ('Outlander', 'Outlander'),
-        ('Sage', 'Sage'),
-        ('Sailor', 'Sailor'),
-        ('Soldier', 'Soldier'),
-        ('Urchin', 'Urchin'),
-    )
-    GENDERS = (
-        ('M', 'Male'),
-        ('F', 'Female'),
-        ('A', 'Asexual'),
-        ('N', 'Not Defined'),
-    )
     name            = models.CharField(max_length=40)
     player_name     = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     level           = models.IntegerField(default=1)
     xp              = models.IntegerField(default=0)
     xp_next_level   = models.IntegerField(default=0)
-    race            = models.CharField(max_length=15, choices=RACES, default='Human')
-    char_class      = models.CharField(max_length=10, choices=CLASSES, default='Fighter')
-    background      = models.CharField(max_length=15, choices=BACKGROUNDS, default='None')
-    gender          = models.CharField(max_length=1, choices=GENDERS, default='N')
+    race            = models.ForeignKey(Race, null=True, blank=False)
+    char_class      = models.ForeignKey(CharClass, null=True, blank=False)
+    archetype       = models.ForeignKey(Archetype, null=True, blank=True)
+    background      = models.ForeignKey(Background, null=True, blank=False)
+    gender          = models.ForeignKey(Gender, null=True, blank=False)
     # traits          = models.ManyToManyField('PersonalityTrait')
     # ideals          = models.ManyToManyField('Ideals')
     # bonds           = models.ManyToManyField('Bonds')
@@ -113,7 +132,7 @@ class Character(models.Model):
 
 
     class Meta:
-        verbose_name = 'Character'
+        verbose_name        = 'Character'
         verbose_name_plural = 'Characters'
 
     def __str__(self):
@@ -125,7 +144,7 @@ class PersonalityTrait(models.Model):
     trait = models.CharField(max_length=120)
 
     class Meta:
-        verbose_name = 'PersonalityTrait'
+        verbose_name        = 'PersonalityTrait'
         verbose_name_plural = 'PersonalityTraits'
 
     def __str__(self):
@@ -137,7 +156,7 @@ class Ideal(models.Model):
     ideal = models.CharField(max_length=150)
 
     class Meta:
-        verbose_name = 'Ideal'
+        verbose_name        = 'Ideal'
         verbose_name_plural = 'Ideals'
 
     def __str__(self):
@@ -149,7 +168,7 @@ class Bond(models.Model):
     bond = models.CharField(max_length=150)
 
     class Meta:
-        verbose_name = 'Bond'
+        verbose_name        = 'Bond'
         verbose_name_plural = 'Bonds'
 
     def __str__(self):
@@ -161,7 +180,7 @@ class Flaw(models.Model):
     flaw = models.CharField(max_length=150)
 
     class Meta:
-        verbose_name = 'Flaw'
+        verbose_name        = 'Flaw'
         verbose_name_plural = 'Flaws'
 
     def __str__(self):
@@ -171,7 +190,7 @@ class Language(models.Model):
     lang = models.CharField(max_length=20)
 
     class Meta:
-        verbose_name = "Language"
+        verbose_name        = "Language"
         verbose_name_plural = "Languages"
 
     def __str__(self):
