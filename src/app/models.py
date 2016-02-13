@@ -61,10 +61,11 @@ class Character(models.Model):
     char_class      = models.CharField(max_length=10, choices=CLASSES, default='Fighter')
     background      = models.CharField(max_length=15, choices=BACKGROUNDS, default='None')
     gender          = models.CharField(max_length=1, choices=GENDERS, default='N')
-    traits          = models.ManyToManyField('PersonalityTrait')
-    ideals          = models.ManyToManyField('Ideals')
-    bonds           = models.ManyToManyField('Bonds')
-    flaws           = models.ManyToManyField('Flaws')
+    # traits          = models.ManyToManyField('PersonalityTrait')
+    # ideals          = models.ManyToManyField('Ideals')
+    # bonds           = models.ManyToManyField('Bonds')
+    # flaws           = models.ManyToManyField('Flaws')
+    languages       = models.ManyToManyField('language')
     hair            = models.CharField(max_length=50, null=True, blank=False)
     eyes            = models.CharField(max_length=10, null=True, blank=False)
     skin            = models.CharField(max_length=20, null=True, blank=False)
@@ -120,6 +121,7 @@ class Character(models.Model):
 
 
 class PersonalityTrait(models.Model):
+    character = models.ForeignKey(Character, null=True, blank=False)
     trait = models.CharField(max_length=120)
 
     class Meta:
@@ -131,6 +133,7 @@ class PersonalityTrait(models.Model):
 
 
 class Ideals(models.Model):
+    character = models.ForeignKey(Character, null=True, blank=False)
     ideal = models.CharField(max_length=150)
 
     class Meta:
@@ -142,6 +145,7 @@ class Ideals(models.Model):
 
 
 class Bonds(models.Model):
+    character = models.ForeignKey(Character, null=True, blank=False)
     bond = models.CharField(max_length=150)
 
     class Meta:
@@ -153,6 +157,7 @@ class Bonds(models.Model):
 
 
 class Flaws(models.Model):
+    character = models.ForeignKey(Character, null=True, blank=False)
     flaw = models.CharField(max_length=150)
 
     class Meta:
@@ -162,4 +167,13 @@ class Flaws(models.Model):
     def __str__(self):
         return '%s' % self.flaw
 
+class Language(models.Model):
+    lang = models.CharField(max_length=20)
+
+    class Meta:
+        verbose_name = "Language"
+        verbose_name_plural = "Languages"
+
+    def __str__(self):
+        return '%s' % self.lang
 
