@@ -132,7 +132,7 @@ class PersonalityTrait(models.Model):
         return '%s' % self.trait
 
 
-class Ideals(models.Model):
+class Ideal(models.Model):
     character = models.ForeignKey(Character, null=True, blank=False)
     ideal = models.CharField(max_length=150)
 
@@ -144,7 +144,7 @@ class Ideals(models.Model):
         return '%s' % self.ideal
 
 
-class Bonds(models.Model):
+class Bond(models.Model):
     character = models.ForeignKey(Character, null=True, blank=False)
     bond = models.CharField(max_length=150)
 
@@ -156,7 +156,7 @@ class Bonds(models.Model):
         return '%s' % self.bond
 
 
-class Flaws(models.Model):
+class Flaw(models.Model):
     character = models.ForeignKey(Character, null=True, blank=False)
     flaw = models.CharField(max_length=150)
 
